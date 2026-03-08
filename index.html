@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Reborner · 雅思听力核心词汇 · Part 1 全量版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(165deg, #f0f7e9 0%, #deecd2 100%);
+            padding: 1.5rem 1rem 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 620px;
+            width: 100%;
+        }
+        .header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.1rem;
+            font-weight: 380;
+            color: #2d543b;
+            line-height: 1.3;
+            letter-spacing: -0.2px;
+            margin-bottom: 0.2rem;
+        }
+        .header .sub1 {
+            font-size: 1.5rem;
+            color: #4f7b5a;
+            font-weight: 340;
+            line-height: 1.4;
+        }
+        .header .sub2 {
+            font-size: 1.2rem;
+            color: #618967;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+        .chapter-scroll {
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            padding: 0.2rem 0 0.8rem 0;
+            scrollbar-width: none;
+        }
+        .chapter-scroll::-webkit-scrollbar { display: none; }
+        .chap-flex {
+            display: inline-flex;
+            gap: 0.7rem;
+            padding: 0 0.2rem;
+        }
+        .chap-btn {
+            background: #f3fcee;
+            border: 1px solid #d2e2c7;
+            border-radius: 40px;
+            padding: 0.6rem 1.8rem;
+            font-size: 1.2rem;
+            font-weight: 430;
+            color: #2b5538;
+            white-space: nowrap;
+            box-shadow: 0 2px 6px rgba(150, 180, 140, 0.08);
+            transition: 0.1s;
+            cursor: pointer;
+        }
+        .chap-btn.active {
+            background: #cde5c2;
+            border-color: #8bb282;
+            color: #1b4125;
+            font-weight: 500;
+        }
+        .subchapter-scroll {
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            padding: 0 0 0.9rem 0;
+            scrollbar-width: none;
+        }
+        .subchapter-scroll::-webkit-scrollbar { display: none; }
+        .sub-flex {
+            display: inline-flex;
+            gap: 0.6rem;
+            padding: 0 0.2rem;
+        }
+        .sub-btn {
+            background: #ecf7e4;
+            border: 1px solid #cde0c0;
+            border-radius: 30px;
+            padding: 0.4rem 1.3rem;
+            font-size: 0.96rem;
+            font-weight: 400;
+            color: #336941;
+            white-space: nowrap;
+            box-shadow: 0 1px 4px rgba(120,150,100,0.1);
+            cursor: pointer;
+        }
+        .sub-btn.active-sub {
+            background: #d4ebc5;
+            border-color: #9abb90;
+            color: #1e4529;
+            font-weight: 460;
+        }
+        .word-count-badge {
+            font-size: 0.75rem;
+            background: #c3ddb6;
+            border-radius: 20px;
+            padding: 0.15rem 0.6rem;
+            margin-left: 0.5rem;
+            color: #23522e;
+        }
+        .flip-container {
+            perspective: 1000px;
+            width: 100%;
+            margin: 1.2rem 0 1.5rem 0;
+        }
+        .flipper {
+            position: relative;
+            width: 100%;
+            height: auto;
+            transition: transform 0.4s ease;
+            transform-style: preserve-3d;
+        }
+        .flipper.flipped {
+            transform: rotateY(180deg);
+        }
+        .front, .back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            border-radius: 42px;
+            padding: 2.8rem 1.2rem;
+            background: #fcfff8;
+            border: 1px solid #e3f0da;
+            box-shadow: 0 10px 20px rgba(130, 160, 120, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 240px;
+        }
+        .back {
+            position: absolute;
+            transform: rotateY(180deg);
+            min-height: 240px;
+        }
+        .en-word {
+            font-size: 2.8rem;
+            font-weight: 370;
+            color: #1c4a2a;
+            line-height: 1.3;
+            word-break: break-word;
+            text-align: center;
+            width: 100%;
+        }
+        .ch-word {
+            font-size: 2rem;
+            font-weight: 340;
+            color: #316a42;
+            margin-top: 0.5rem;
+            text-align: center;
+            width: 100%;
+        }
+        .pos {
+            font-size: 1.2rem;
+            color: #719b79;
+            font-weight: 380;
+            text-align: center;
+            width: 100%;
+        }
+        .nav-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0 2rem 0;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            background: #f1fde9;
+            border: 1px solid #cde0c3;
+            border-radius: 60px;
+            padding: 0.7rem 1.8rem;
+            font-size: 1.2rem;
+            color: #295e36;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            cursor: pointer;
+        }
+        .quiz-btn {
+            background: #e2f1d8;
+            border-color: #aacaa0;
+            font-weight: 440;
+        }
+        .thumb-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0 0.8rem;
+        }
+        .thumb-header span {
+            font-size: 1.2rem;
+            color: #3d6d4b;
+            font-weight: 330;
+        }
+        .export-btn {
+            background: #dbeace;
+            border: 1px solid #adc9a2;
+            border-radius: 40px;
+            padding: 0.4rem 1.3rem;
+            font-size: 1rem;
+            color: #23562f;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .thumb-grid-container {
+            max-height: 300px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 20px;
+            padding: 0.2rem 0.2rem 0.5rem 0.2rem;
+            scrollbar-width: thin;
+            scrollbar-color: #b5d3ae #e8f3e0;
+        }
+        .thumb-grid-container::-webkit-scrollbar { width: 5px; }
+        .thumb-grid-container::-webkit-scrollbar-track { background: #e8f3e0; border-radius: 10px; }
+        .thumb-grid-container::-webkit-scrollbar-thumb { background: #b5d3ae; border-radius: 10px; }
+        .thumb-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.6rem;
+            padding: 0.2rem;
+        }
+        .thumb-item {
+            background: #f9fff3;
+            border: 1px solid #dbefd0;
+            border-radius: 24px;
+            padding: 0.7rem 0.3rem 0.7rem 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+            box-shadow: 0 2px 6px rgba(160, 180, 140, 0.1);
+            min-width: 0;
+        }
+        .thumb-item input[type="checkbox"] {
+            width: 1.2rem;
+            height: 1.2rem;
+            accent-color: #86b07c;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        .thumb-item label {
+            font-size: 0.9rem;
+            color: #2e623d;
+            font-weight: 420;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+            cursor: pointer;
+        }
+        .quiz-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(200, 225, 190, 0.8);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+            padding: 1rem;
+        }
+        .quiz-overlay.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .quiz-panel {
+            background: #f6ffee;
+            width: 100%;
+            max-width: 450px;
+            border-radius: 48px;
+            padding: 2.2rem 1.5rem;
+            border: 1px solid #daefce;
+            box-shadow: 0 20px 30px rgba(90, 120, 70, 0.2);
+        }
+        .quiz-panel h3 {
+            font-size: 2rem;
+            font-weight: 320;
+            color: #2f6040;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .close-area { display: flex; justify-content: flex-end; }
+        .close-quiz {
+            font-size: 2.8rem; line-height: 0.8; color: #6d9b71;
+            background: none; border: none; padding: 0 0.5rem; cursor: pointer;
+        }
+        .quiz-card {
+            background: white;
+            border-radius: 42px;
+            padding: 2.5rem 1rem;
+            margin: 1.5rem 0;
+            border: 1px solid #d1e6c5;
+            text-align: center;
+        }
+        .quiz-card .big-en {
+            font-size: 3rem;
+            color: #1e4d2b;
+            font-weight: 340;
+            word-break: break-word;
+        }
+        .quiz-footer { display: flex; justify-content: center; gap: 2rem; margin: 1rem 0; }
+        .quiz-footer .nav-btn { font-size: 1.4rem; padding: 0.5rem 2rem; }
+        .quiz-counter { text-align: center; color: #517d58; font-size: 1.1rem; }
+        .tip { color: #799e7a; font-size: 0.95rem; margin-top: 1rem; text-align: center; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Reborner 雅思听力核心词汇</h1>
+        <div class="sub1">Part 1 专项 · 全量版</div>
+        <div class="sub2">天天进步，每日新生</div>
+    </div>
+
+    <!-- 主分类：Part 1 (只有一个) -->
+    <div class="chapter-scroll" id="mainCategoryScroll"><div class="chap-flex" id="mainCategoryFlex"></div></div>
+    <!-- 二级分类容器：餐饮与饮食／旅游与交通／医疗与健康／租房／购物与消费／人际关系／颜色与日用品／金融 -->
+    <div class="subchapter-scroll" id="subCategoryScroll"><div class="sub-flex" id="subCategoryFlex"></div></div>
+
+    <!-- 主卡片 -->
+    <div class="flip-container" id="flipContainer">
+        <div class="flipper" id="flipper">
+            <div class="front" id="cardFront"><div class="en-word" id="mainEn">foods</div></div>
+            <div class="back" id="cardBack">
+                <div class="en-word" id="backEn">foods</div>
+                <div class="pos" id="posInfo">n.</div>
+                <div class="ch-word" id="mainCh">食品</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-row">
+        <button class="nav-btn" id="prevBtn">← 前</button>
+        <button class="nav-btn" id="nextBtn">后 →</button>
+        <button class="nav-btn" id="speakBtn">🔊 发音</button>
+        <button class="nav-btn quiz-btn" id="quizOpenBtn">🎯 quiz</button>
+    </div>
+
+    <div class="thumb-header">
+        <span>📌 本章全部单词 · 勾选难词</span>
+        <button class="export-btn" id="exportDifficultBtn">📎 导出我的难词</button>
+    </div>
+    <div class="thumb-grid-container"><div class="thumb-grid" id="thumbGrid"></div></div>
+    <div class="tip">✓ 点击卡片翻转 · 勾选方格标记难词</div>
+</div>
+
+<!-- quiz 弹窗 -->
+<div class="quiz-overlay" id="quizOverlay">
+    <div class="quiz-panel">
+        <div class="close-area"><button class="close-quiz" id="closeQuizBtn">⨯</button></div>
+        <h3>🔍 随机小测</h3>
+        <div class="quiz-card"><div class="big-en" id="quizWord">foods</div></div>
+        <div class="quiz-footer">
+            <button class="nav-btn" id="quizPrevBtn">←</button>
+            <button class="nav-btn" id="quizNextBtn">→</button>
+        </div>
+        <div class="quiz-counter" id="quizCounter">1 / 5</div>
+    </div>
+</div>
+
+<script>
+(function() {
+    // ==================== 雅思听力核心词汇 · Part 1 完整八部分 ====================
+    // 严格按照文档 SECTION 1 全部词汇录入 (餐饮与饮食，旅游与交通，医疗与健康，租房，购物与消费，人际关系，颜色与日用品，金融)
+    const vocabData = [
+        // 1. 餐饮与饮食 (包含日常饮食、厨房、食物、饮品)
+        { en: "foods", ch: "食品", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "food intake", ch: "进食", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "food chain", ch: "食物链", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "food containers", ch: "食品容器", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "food supply", ch: "食品供应", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "fresh food", ch: "新鲜食物", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "frozen food", ch: "冷冻食品", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "preparing food", ch: "做饭", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "diet", ch: "日常饮食", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "eat", ch: "吃", pos: "v.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "meal", ch: "餐", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "evening meals", ch: "晚餐", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "breakfast", ch: "早餐", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "lunch", ch: "午餐", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "dinner", ch: "晚餐", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "dining room", ch: "餐厅", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "hunger", ch: "饥饿", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "starvation", ch: "饥饿", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "low nutrition", ch: "低营养", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "restaurant", ch: "餐馆", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "catering", ch: "餐饮服务", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "takeaway", ch: "外卖", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "picnic", ch: "野餐", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "eating patterns", ch: "饮食习惯", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "tastes", ch: "滋味", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "scent", ch: "香味", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "smell", ch: "气味", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "odour", ch: "气味", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "flavor", ch: "香料；滋味", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "ingredients", ch: "成分", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "salt", ch: "盐", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "sugar", ch: "糖", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "olive oil", ch: "橄榄油", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "acid", ch: "酸的", pos: "adj.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "sweetener", ch: "甜味剂", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "antiseptic", ch: "防腐剂", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "vegetarian", ch: "素食者", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "kitchen", ch: "厨房", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "kitchen area", ch: "厨房区域", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "cook", ch: "烹饪", pos: "v.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "cooking", ch: "做饭", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "cooker", ch: "炊具", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "cookery", ch: "烹饪技术", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "shelf", ch: "架子", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "rack", ch: "架子", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "lids", ch: "盖子", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "overfill", ch: "把......装满", pos: "v.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "container", ch: "容器", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "cup", ch: "杯子", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "tank", ch: "罐；箱", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "bucket", ch: "桶", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "boiler", ch: "锅炉；烧水壶", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "pot", ch: "把......装罐", pos: "v.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "pottery", ch: "陶器", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "basket", ch: "篮子", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "cut", ch: "切开", pos: "v.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "knife", ch: "刀", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "axe", ch: "斧子", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "stick", ch: "棒子", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "long stick", ch: "长棍子", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "brushes", ch: "刷子", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "plates", ch: "盘子", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "spoon", ch: "勺子", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "apron", ch: "围裙", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "oven", ch: "烤箱", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "microwave", ch: "微波炉", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "doublegrill", ch: "双面烤箱", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "fire", ch: "火", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "fireplaces", ch: "壁炉", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "firewood", ch: "柴火", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "fireworks", ch: "烟花", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "fire blanket", ch: "灭火毯", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "fire drill", ch: "消防演习", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "gas", ch: "气体", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "gas tanks", ch: "煤气罐", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "natural gas", ch: "天然气", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "fridge", ch: "冰箱", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "freezer", ch: "冷冻柜", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "dishwasher", ch: "洗碗机", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "rice", ch: "米", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "smash", ch: "粉碎", pos: "v.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "starch", ch: "淀粉", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "grind flour", ch: "磨粉", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "powder", ch: "粉末", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "potatoes", ch: "土豆", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "carrots", ch: "胡萝卜", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "corn", ch: "玉米", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "meat", ch: "肉", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "fresh meat", ch: "新鲜肉", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "seafood", ch: "海鲜", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "chicken", ch: "鸡肉", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "egg", ch: "鸡蛋", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "fruit", ch: "水果", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "fruit tree", ch: "果树", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "fruit cake", ch: "水果饼", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "apple", ch: "苹果", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "coconut", ch: "椰子", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "banana", ch: "香蕉", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "lemon", ch: "柠檬", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "orange", ch: "橘子", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "tomatoes", ch: "番茄", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "cake", ch: "蛋糕", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "fish cake", ch: "炸鱼饼", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "pizza", ch: "比萨饼", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "pizza boxes", ch: "比萨盒", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "boxes", ch: "盒子", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "sandwiches", ch: "三明治", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "vegetable burger", ch: "蔬菜汉堡", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "salads", ch: "沙拉", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "cheese", ch: "芝士", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "honey", ch: "蜂蜜", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "snacks", ch: "小吃", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "high energy snack", ch: "高能量食物", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "refreshments", ch: "小吃", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "chocolate", ch: "巧克力", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "gum", ch: "口香糖", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "nuts", ch: "坚果", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "organic", ch: "有机的", pos: "adj.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "nutrition", ch: "营养", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "protein", ch: "蛋白质", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "vitamin A", ch: "维生素A", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "drink", ch: "饮料", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "drink milk", ch: "喝牛奶", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "drinks and snacks", ch: "饮料和小吃", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "free drink", ch: "免费饮料", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "drinking", ch: "喝饮料", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "drinking machines", ch: "饮水机", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "bottle water", ch: "瓶装水", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "spring water", ch: "矿泉水", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "juice", ch: "果汁", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "fruit juice", ch: "果汁", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "juice bottles", ch: "果汁瓶", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "apple juice", ch: "苹果汁", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "milk", ch: "牛奶", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "tea", ch: "茶", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "beer", ch: "啤酒", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "ice", ch: "冰", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "ice pack", ch: "冰袋", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "soup", ch: "汤", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "cafe", ch: "咖啡馆", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "coffee", ch: "咖啡", pos: "n.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "coffee table", ch: "咖啡桌", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        { en: "coffee machine", ch: "咖啡机", pos: "phr.", mainCategory: "Part 1", subCategory: "餐饮与饮食" },
+        // 2. 旅游与交通 (包含公共交通、景点活动、酒店预订、自驾游)
+        { en: "traffic", ch: "交通", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "traffic flow", ch: "车流量", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "traffic noise", ch: "交通噪音", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "transport", ch: "交通", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "public transport", ch: "公共交通", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "transport service", ch: "交通服务", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "transportation", ch: "交通工具", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "free transportation", ch: "免费交通", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "airline", ch: "航线", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "airplane", ch: "飞机", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "airport", ch: "机场", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "flight", ch: "航班", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "return ticket", ch: "回程票", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "train", ch: "火车", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "express train", ch: "特快火车", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "railway station", ch: "火车站", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "railway line", ch: "铁路线", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "railway track", ch: "铁轨", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "truck", ch: "卡车", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "boat", ch: "船", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "ship", ch: "船", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "ship bell", ch: "船钟", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "ship building", ch: "造船", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "shipping", ch: "航运", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "sailing", ch: "航行", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "bus", ch: "公交车", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "bus stop", ch: "公交站", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "bus ticket", ch: "公交票", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "special buses", ch: "专用公车", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "minibus", ch: "小型巴士", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "bus service", ch: "公交服务", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "shuttle", ch: "班车", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "passenger", ch: "乘客", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "station", ch: "车站", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "subway", ch: "地铁", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "highway", ch: "高速公路", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "lane", ch: "车道；小巷", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "taxi", ch: "出租车", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "cab", ch: "的士", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "helicopter", ch: "直升机", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "plane", ch: "飞机；平面", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "plane science", ch: "飞行科学", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "bicycle", ch: "自行车", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "bike", ch: "自行车", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "chain", ch: "链条", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "tickets", ch: "票", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "access", ch: "进入", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "check", ch: "检查", pos: "v.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "lists", ch: "列表", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "checklist", ch: "清单", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "photographs", ch: "照片", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "photographic", ch: "摄影的", pos: "adj.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "take photos", ch: "照相", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "camera", ch: "相机", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "zoom", ch: "变焦", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "focus", ch: "中心点；焦距", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "flash light", ch: "闪光灯", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "flashing", ch: "闪烁的", pos: "adj.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "scenery", ch: "风景", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "view", ch: "风景", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "lookout point", ch: "观景点", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "rural", ch: "乡下的", pos: "adj.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "village", ch: "乡村", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "country", ch: "乡下；国家", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "countryside living", ch: "田园生活", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "different countries", ch: "不同的国家", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "carnival", ch: "狂欢节", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "festival", ch: "节日", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "balloon", ch: "热气球", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "cable", ch: "缆线", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "cable car", ch: "缆车", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "climbing", ch: "攀爬", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "experience", ch: "体验", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "memories", ch: "记忆", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "holiday", ch: "度假", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "national holidays", ch: "公共假日", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "vacation", ch: "度假", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "travelling", ch: "旅行", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "domestic", ch: "国内的", pos: "adj.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "overseas", ch: "海外的", pos: "adj.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "peak season", ch: "旺季", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "embassy", ch: "大使馆", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "visa", ch: "签证", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "passport", ch: "护照", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "passport photos", ch: "护照照片", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "personal information", ch: "个人信息", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "tour", ch: "观光", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "general tour", ch: "一般性旅游", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "tourism", ch: "旅游", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "tourists", ch: "游客", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "visits", ch: "参观", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "visitor", ch: "游客", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "guest", ch: "客人", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "group trip", ch: "团体旅游", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "guides", ch: "向导", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "hostel", ch: "旅社", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "motel", ch: "汽车旅馆", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "hotel", ch: "酒店", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "booking", ch: "预订", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "book in advanced", ch: "提前预订", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "booking form", ch: "预订表格", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "reservation", ch: "预订", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "front", ch: "前面", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "front desk", ch: "前台", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "help desk", ch: "服务台", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "information desk", ch: "问讯处", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "reception", ch: "接待", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "receptionist", ch: "接待员", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "hospitality", ch: "款待", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "home welcome", ch: "宾至如归", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "unapproachable", ch: "不友好的", pos: "adj.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "waiter", ch: "服务员", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "waitress", ch: "女服务员", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "services", ch: "服务", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "service manager", ch: "服务部经理", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "room service", ch: "客房服务", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "satisfaction", ch: "满意度", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "satisfactory", ch: "令人满意的", pos: "adj.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "pleasure", ch: "愉快", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "feedback", ch: "反馈", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "comment card", ch: "意见表", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "card", ch: "卡片", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "card index", ch: "卡片索引", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "noisy", ch: "吵闹的", pos: "adj.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "loud noises", ch: "大声喧哗", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "complaints", ch: "投诉", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "apologize", ch: "道歉", pos: "v.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "apology", ch: "道歉", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "car", ch: "汽车", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "car park", ch: "车位", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "car tyre", ch: "车胎", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "high car taxes", ch: "高额车辆税", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "race car", ch: "赛车", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "nitrogen", ch: "氮气", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "automobile", ch: "汽车", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "motor", ch: "汽车", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "caravan", ch: "房车", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "minivan", ch: "小型货车", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "drive", ch: "驾驶", pos: "v.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "test drive", ch: "试驾", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "driver", ch: "司机", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "driving", ch: "驾驶", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "license", ch: "执照", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "driving license", ch: "驾照", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "self-drive", ch: "驾驶自己的车（去度假）的", pos: "adj.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "beginner", ch: "初学者", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "beginning", ch: "开始", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "basic", ch: "基本的", pos: "adj.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "navigate", ch: "驾驶；定位", pos: "v.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "navigational", ch: "导航的", pos: "adj.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "pilots", ch: "领航员", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "turn", ch: "转向", pos: "v.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "orientation", ch: "方向", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "direction", ch: "方向", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "downhill", ch: "下坡的", pos: "adj.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "speed", ch: "速度", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "uncontrolled", ch: "无法控制的", pos: "adj.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "rush", ch: "匆忙", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "hurry up", ch: "催促", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "radar", ch: "雷达", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "limit", ch: "限制", pos: "v.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "limitation", ch: "限制；局限", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "slow", ch: "缓慢的", pos: "adj.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "warning", ch: "警告", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "signal", ch: "信号", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "instruction", ch: "指令", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "dictation", ch: "命令", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "rule", ch: "规则", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "antifreeze", ch: "防冻液", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "petrol", ch: "汽油", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "petrol station", ch: "加油站", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "gas station", ch: "加油站", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "oil", ch: "石油", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "oil filter", ch: "油滤器", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "engine", ch: "发动机", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "automatic", ch: "自动换挡汽车", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "tyre", ch: "轮胎", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "wheel", ch: "轮子", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "back wheel", ch: "后轮", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "wheelchair", ch: "轮椅", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "seat", ch: "座位", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "child seat", ch: "儿童座椅", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "seating", ch: "座位", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "parking", ch: "停车位", pos: "n.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "parking space", ch: "停车位", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        { en: "free parking", ch: "免费停车", pos: "phr.", mainCategory: "Part 1", subCategory: "旅游与交通" },
+        // 3. 医疗与健康 (身体健康，身体器官，心理健康，治疗)
+        { en: "disability", ch: "残疾", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "disable people", ch: "残疾人", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "blind", ch: "失明的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "physical changes", ch: "身体变化", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "internal clock", ch: "生物钟", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "sleep", ch: "睡觉", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "sleeping bag", ch: "睡袋", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "sleeping sickness", ch: "嗜睡症", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "sleeping pills", ch: "安眠药", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "health", ch: "健康", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "health care", ch: "健康护理", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "health service", ch: "公共医疗服务", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "health check", ch: "体检", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "health department", ch: "卫生部", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "health benefits", ch: "健康上的益处", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "unhealthy", ch: "不健康的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "fitness", ch: "健康", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "age", ch: "使变老", pos: "v.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "aging", ch: "老龄化", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "lifespan", ch: "寿命", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "life cycle", ch: "生命周期", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "lifestyle", ch: "生活方式", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "life science", ch: "生命科学", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "quality of life", ch: "生活质量", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "metabolism", ch: "新陈代谢", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "digest", ch: "消化", pos: "v.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "digestion", ch: "消化", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "digestive", ch: "消化的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "body shape", ch: "体型", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "body fluid", ch: "体液", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "body language", ch: "肢体语言", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "back", ch: "背部", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "back problem", ch: "背部问题", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "leg", ch: "腿", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "leg room", ch: "腿部空间", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "feet", ch: "双脚", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "footprints", ch: "脚步", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "footpath", ch: "人行道", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "knee", ch: "膝盖", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "arm", ch: "手臂", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "hand", ch: "手", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "finger", ch: "手指", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "head", ch: "头", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "headaches", ch: "头疼", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "faces", ch: "脸部", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "face painting", ch: "脸部彩绘", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "hair", ch: "头发", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "skin", ch: "皮肤", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "jaw", ch: "下巴", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "neck", ch: "脖子", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "necklace", ch: "项链", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "teeth", ch: "牙齿", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "toothache", ch: "牙疼", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "tongue", ch: "舌头", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "brain", ch: "大脑", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "eye", ch: "眼睛", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "eyedrops", ch: "眼药水", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "eye contacts", ch: "眼神交流", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "eyesight", ch: "视力", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "hearing", ch: "听力", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "listening", ch: "听力", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "voice", ch: "嗓音", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "clear", ch: "清晰的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "clear voice", ch: "清晰嗓音", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "kidney", ch: "肾", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "heart", ch: "心脏", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "heart rate", ch: "心率", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "heart disease", ch: "心脏病", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "lungs", ch: "肺", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "breathe", ch: "呼吸", pos: "v.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "stomach", ch: "胃", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "blood", ch: "血", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "red blood cells", ch: "血红细胞", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "bone", ch: "骨头", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "mental", ch: "心理的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "mental ability", ch: "心智能力", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "emotion", ch: "情感", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "emotional", ch: "情感的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "rationally", ch: "理性地", pos: "adv.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "moods", ch: "心情", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "character", ch: "性格", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "personality", ch: "个性", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "influence", ch: "影响", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "negative", ch: "消极的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "negative affect", ch: "消极情绪", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "negative thinking", ch: "负面思考", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "opposite", ch: "反面", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "against", ch: "反对", pos: "prep.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "passive", ch: "消极的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "corrupt", ch: "堕落的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "pressure", ch: "压力", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "stress", ch: "压力", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "stressful", ch: "有压力的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "stuck", ch: "被......困住的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "depression", ch: "沮丧", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "frustration", ch: "沮丧", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "discourage", ch: "使泄气", pos: "v.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "encourage", ch: "鼓励", pos: "v.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "useless", ch: "无用的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "horror", ch: "恐惧", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "scare", ch: "恐惧", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "fear", ch: "害怕", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "tolerance", ch: "忍耐", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "lonely", ch: "寂寞的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "isolation", ch: "孤立", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "unsocial", ch: "不合群的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "independence", ch: "独立", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "escape", ch: "逃离", pos: "v.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "tears", ch: "眼泪", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "torn", ch: "撕裂", pos: "v.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "sensitive", ch: "敏感的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "shame", ch: "羞愧", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "boring", ch: "无聊的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "virus", ch: "病毒", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "infection", ch: "感染", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "diseases", ch: "疾病", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "illness", ch: "疾病", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "uncomfortable", ch: "不舒服的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "cold", ch: "感冒", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "flu", ch: "流感", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "delicate", ch: "纤弱的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "pain", ch: "疼痛", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "muscle pain", ch: "肌肉疼痛", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "injury", ch: "损伤", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "sports injury", ch: "运动损伤", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "emergency", ch: "紧急情况", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "accident", ch: "事故，意外", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "ambulance", ch: "救护车", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "first-aid kit", ch: "急救包", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "hospital", ch: "医院", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "doctor", ch: "医生", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "nurse", ch: "护士", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "nursing", ch: "护理", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "dentist", ch: "牙医", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "psychologist", ch: "心理学家", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "description", ch: "描述", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "detail", ch: "详细", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "detail information", ch: "详细信息", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "medication", ch: "药物", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "medicine", ch: "药", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "natural medicine", ch: "中草药", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "medical", ch: "医学的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "medical centre", ch: "医疗中心", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "drug", ch: "药物", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "poison", ch: "毒药", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "oral", ch: "口试", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "antibiotics", ch: "抗生素", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "painkiller", ch: "止疼片", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "therapy", ch: "治疗", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "treatment", ch: "治疗", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "plastic surgery", ch: "整形手术", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "solution", ch: "解决方法", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "immune", ch: "有免疫力的", pos: "adj.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "prevention", ch: "预防", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "implant", ch: "将(人造器官等)植入", pos: "v.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "lose weight", ch: "减肥", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "rest", ch: "休息", pos: "v.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "rest area", ch: "休息区", pos: "phr.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "restroom", ch: "休息室", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "smile", ch: "微笑", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "relaxation", ch: "放松", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "stimulation", ch: "激励", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "aspiration", ch: "强烈的愿望", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        { en: "motivation", ch: "动机", pos: "n.", mainCategory: "Part 1", subCategory: "医疗与健康" },
+        // 4. 租房 (地理位置与房型布局，房屋保持与维修申报，屋内陈设，申请签约)
+        { en: "address", ch: "地址", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "apartment", ch: "公寓", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "flat", ch: "公寓", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "housing", ch: "住宅", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "house key", ch: "房门钥匙", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "entrance", ch: "入口", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "door", ch: "门", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "door to door", ch: "门到门服务", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "back door", ch: "后门", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "gate", ch: "大门", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "side gate", ch: "侧门", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "handle", ch: "门把手", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "lock", ch: "锁", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "locker", ch: "锁柜", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "lockup garage", ch: "带锁车库", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "selflocking", ch: "自动上锁", pos: "adj.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "code", ch: "密码", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "password", ch: "密码", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "elevator", ch: "电梯", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "stairs", ch: "楼梯", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "staircases", ch: "楼梯", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "upstairs", ch: "楼上", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "stair lift", ch: "楼梯升降机", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "roof", ch: "屋顶", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "dome", ch: "圆屋顶", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "corner", ch: "角落", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "layout", ch: "布局", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "ground plan", ch: "草图", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "structure", ch: "结构", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "structured", ch: "有结构的", pos: "adj.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "genetic structure", ch: "遗传结构", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "living room", ch: "客厅", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "double room", ch: "双人房", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "changing room", ch: "更衣室", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "green room", ch: "绿色房间", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "spare room", ch: "客房", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "spare", ch: "备用的", pos: "adj.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "lounge", ch: "客厅", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "cabin", ch: "小屋", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "cabin key", ch: "客舱钥匙", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "studio", ch: "工作室", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "balcony", ch: "阳台", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "terrace", ch: "阳台", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "bedroom", ch: "卧室", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "bed sheet", ch: "床单", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "queen size", ch: "双人床", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "bath", ch: "洗澡", pos: "v.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "bathroom", ch: "浴室", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "toilet", ch: "厕所", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "basement", ch: "地下室", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "garage", ch: "车库", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "warehouse", ch: "仓库", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "storage space", ch: "储藏室", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "fence", ch: "围墙", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "barrier", ch: "屏障；障碍", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "floor", ch: "地板", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "ground", ch: "地面", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "living expense", ch: "生活开销", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "clean", ch: "干净的", pos: "adj.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "cleanest", ch: "最清洁的", pos: "adj.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "clean product", ch: "清洁用品", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "clean material", ch: "清洁材料", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "clean machine", ch: "清洁机器", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "waste", ch: "浪费", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "waste disposal", ch: "废弃处置", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "green waste", ch: "可回收垃圾", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "rubbish", ch: "垃圾", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "trash", ch: "垃圾", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "garbage", ch: "垃圾", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "dust bag", ch: "集尘袋", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "reusable", ch: "可重复使用的", pos: "adj.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "reusable bag", ch: "环保袋", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "water pipe", ch: "水管", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "pipe", ch: "管道", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "drain", ch: "排水", pos: "v.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "pump", ch: "泵", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "pump water", ch: "用水泵抽水", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "explode", ch: "爆炸", pos: "v.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "explosion", ch: "爆炸", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "leak", ch: "漏洞", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "gap", ch: "间隙", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "request", ch: "请求", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "require", ch: "要求", pos: "v.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "demand", ch: "需求", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "contact", ch: "联系", pos: "v.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "contact number", ch: "联系电话", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "maintenance", ch: "维护", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "replacement", ch: "替换", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "change", ch: "改变", pos: "v.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "repair", ch: "修理", pos: "v.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "free repair", ch: "免费修理", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "repaired cost", ch: "修理成本", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "carpenter", ch: "木匠", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "seasoned", ch: "风干的", pos: "adj.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "polish", ch: "抛光", pos: "v.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "board", ch: "板子", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "decoration", ch: "装潢", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "equipment", ch: "工具", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "tools", ch: "工具", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "traditional tool", ch: "传统工具", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "scaffold", ch: "脚手架", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "ladder", ch: "梯子", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "glue", ch: "胶水", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "grease", ch: "油膏", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "wires", ch: "电线", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "indoor", ch: "在室内的", pos: "adj.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "facilities", ch: "设备", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "ventilation system", ch: "通风系统", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "fan", ch: "风扇", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "aircondition", ch: "空调", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "central heating", ch: "中央暖气", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "cool", ch: "凉爽的", pos: "adj.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "heater", ch: "取暖器", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "water heater", ch: "热水器", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "shower", ch: "洗澡", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "warm bath", ch: "热水澡", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "towel", ch: "毛巾", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "soap", ch: "肥皂", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "washbasin", ch: "面盆", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "light", ch: "光；灯", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "lighting", ch: "照明", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "lamp", ch: "灯", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "desk lamp", ch: "台灯", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "candle", ch: "蜡烛", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "bright", ch: "明亮的", pos: "adj.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "washing", ch: "洗", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "washing machine", ch: "洗衣机", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "laptop", ch: "笔记本电脑", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "batteries", ch: "电池", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "furniture", ch: "家具", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "unfurnished", ch: "无家具的", pos: "adj.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "table", ch: "桌子", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "long table", ch: "长桌", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "round table", ch: "圆桌", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "chair", ch: "椅子", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "armchair", ch: "扶手椅", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "mirror", ch: "镜子", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "window", ch: "窗户", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "window glass", ch: "窗户玻璃", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "window view", ch: "窗景", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "curtain", ch: "窗帘", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "glass", ch: "玻璃", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "glass roof", ch: "玻璃顶", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "blanket", ch: "毯子", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "carpet", ch: "地毯", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "mat", ch: "垫子", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "application", ch: "申请表", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "form", ch: "表格", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "application form", ch: "申请表", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "fill", ch: "填写", pos: "v.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "signature", ch: "签名", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "sign", ch: "标记", pos: "v.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "deadline", ch: "最后期限", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "name", ch: "名字", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "expectation", ch: "期望", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "expect", ch: "预期", pos: "v.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "decision", ch: "决定", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "accept", ch: "接受", pos: "v.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "acceptable", ch: "可接受的", pos: "adj.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "choice", ch: "选择", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "choose", ch: "选择", pos: "v.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "choosing", ch: "选择", pos: "v.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "select", ch: "选择", pos: "v.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "selection", ch: "选择", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "agencies", ch: "中介", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "agent", ch: "代理人；中介", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "Long-term", ch: "长期的", pos: "adj.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "contract", ch: "合同", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "agreement", ch: "协定；协议", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "lawyer", ch: "律师", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "law department", ch: "法律部门", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "law firm", ch: "律所", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "legal", ch: "法律的；合法的", pos: "adj.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "standard", ch: "标准", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "standard grade", ch: "标准等级", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "arrangement", ch: "安排；约定", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "regulation", ch: "规定", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "strict", ch: "严格的", pos: "adj.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "smoking", ch: "抽烟", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "nonsmoking", ch: "禁止吸烟", pos: "adj.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "smoke alarm", ch: "烟雾报警器", pos: "phr.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "cigar", ch: "雪茄", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "advance", ch: "预付", pos: "v.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "neighbours", ch: "邻居", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        { en: "landlady", ch: "女房东", pos: "n.", mainCategory: "Part 1", subCategory: "租房" },
+        // 5. 购物与消费
+        { en: "consume", ch: "消费", pos: "v.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "consumer", ch: "消费者", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "consumption", ch: "消费", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "customer", ch: "顾客", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "client", ch: "顾客", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "shopper", ch: "顾客", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "wallet", ch: "钱包", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "retail", ch: "零售", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "store", ch: "商店；存储", pos: "n./v.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "shop", ch: "商店", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "local shop", ch: "本地商店", pos: "phr.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "shopping", ch: "购物", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "shopping mall", ch: "购物中心", pos: "phr.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "department store", ch: "百货商店", pos: "phr.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "booth", ch: "摊位", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "canteen", ch: "小卖部", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "grocery", ch: "杂货店", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "fast food shop", ch: "快餐店", pos: "phr.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "supermarket", ch: "超市", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "super", ch: "超级的", pos: "adj.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "bakery", ch: "面包房", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "barber shop", ch: "理发店", pos: "phr.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "laundry", ch: "洗衣物的活", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "salesman", ch: "销售员", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "sales", ch: "销售额", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "leaflet", ch: "传单", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "delivery", ch: "快递", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "commerce", ch: "商务；商业", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "commercial", ch: "商业的", pos: "adj.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "price", ch: "价格", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "estimate", ch: "估价", pos: "v.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "evaluation", ch: "评价", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "fees", ch: "费用", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "cost", ch: "花费", pos: "v.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "cost-effective", ch: "精打细算", pos: "adj.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "costly", ch: "贵的", pos: "adj.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "pay", ch: "付款", pos: "v.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "payment", ch: "付款", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "goods", ch: "商品", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "products", ch: "产品", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "production", ch: "产品；产量", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "bar code", ch: "条形码", pos: "phr.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "label", ch: "标签", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "sticker", ch: "贴纸", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "discount", ch: "折扣", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "bargain", ch: "便宜货", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "save", ch: "节省", pos: "v.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "savings", ch: "储蓄", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "special offer", ch: "特价", pos: "phr.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "cheap", ch: "廉价的", pos: "adj.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "expensive", ch: "贵的", pos: "adj.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "fair", ch: "合理的", pos: "adj.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        { en: "refund", ch: "退款", pos: "n.", mainCategory: "Part 1", subCategory: "购物与消费" },
+        // 6. 人际关系 (家庭关系，社会关系)
+        { en: "families", ch: "家庭", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "families life", ch: "家庭生活", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "family photo", ch: "全家福", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "family ticket", ch: "家庭票", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "family relationship", ch: "家庭关系", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "family member", ch: "家庭成员", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "home", ch: "家", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "marriage", ch: "婚姻", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "wedding", ch: "婚礼", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "couple", ch: "对，双；夫妇", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "pair", ch: "夫妻；一对", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "babies", ch: "婴儿", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "birth", ch: "出生", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "relationships", ch: "关系", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "link", ch: "链接", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "connected", ch: "有关系的", pos: "adj.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "relevant", ch: "紧密相关的", pos: "adj.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "generation", ch: "产生；一代人", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "brother-in-law", ch: "连襟", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "mother", ch: "母亲", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "uncle", ch: "叔叔", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "parent", ch: "父母", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "partner", ch: "搭档；配偶", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "grandfather", ch: "爷爷", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "grandmother", ch: "奶奶", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "gender", ch: "性别", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "boy", ch: "男孩", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "male", ch: "男性", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "female", ch: "女性；雌性", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "women", ch: "妇女", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "children", ch: "儿童", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "children background", ch: "儿童背景", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "children mind", ch: "儿童的心智", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "friend", ch: "朋友", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "friendly", ch: "友好的", pos: "adj.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "friendship", ch: "友谊", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "social", ch: "社会的", pos: "adj.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "society", ch: "社会", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "sociable", ch: "善于交际的", pos: "adj.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "social event", ch: "社交活动", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "social interaction", ch: "社交沟通", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "social worker", ch: "社工", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "social skills", ch: "社交技巧", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "social information", ch: "社交信息", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "social activities", ch: "社交活动", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "socialize", ch: "交际", pos: "v.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "people", ch: "人", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "individual", ch: "个人；个体", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "person", ch: "人", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "personal", ch: "个人", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "personal officer", ch: "人事管理员", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "wealthy", ch: "富有的", pos: "adj.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "wealthy people", ch: "富人", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "rich", ch: "富有的", pos: "adj.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "luxury", ch: "奢侈", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "poverty", ch: "贫困", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "identity", ch: "身份", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "heroes", ch: "英雄", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "celebrities", ch: "名人", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "privacy", ch: "隐私", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "private", ch: "私有的", pos: "adj.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "private property", ch: "私人财产", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "junior", ch: "青少年", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "teenager", ch: "青少年", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "young", ch: "年轻的", pos: "adj.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "young people", ch: "年轻人", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "young children", ch: "幼儿", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "young teenager", ch: "（十几岁的）年轻人", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "young graduate", ch: "年轻毕业生", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "youth", ch: "青春", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "maturity", ch: "成熟", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "adult", ch: "成年人", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "oldest", ch: "最老的", pos: "adj.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "old people", ch: "老人", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "senior", ch: "年长的", pos: "adj.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "peers", ch: "同辈；同伴", pos: "n.", mainCategory: "Part 1", subCategory: "人际关系" },
+        { en: "peer group", ch: "同龄群体", pos: "phr.", mainCategory: "Part 1", subCategory: "人际关系" },
+        // 7. 颜色与日用品
+        { en: "color", ch: "颜色", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "colour", ch: "彩色", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "coloured", ch: "彩色的", pos: "adj.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "colour photos", ch: "彩色照片", pos: "phr.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "dark", ch: "黑暗的", pos: "adj.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "dark blue", ch: "深黑色", pos: "phr.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "dark and light", ch: "黑暗与光明", pos: "phr.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "darkroom", ch: "暗房", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "blue", ch: "蓝色", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "yellow", ch: "黄色", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "grey", ch: "灰色的", pos: "adj.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "purple", ch: "紫色", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "red", ch: "红色", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "silver", ch: "银色", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "silver cloth", ch: "银色布料", pos: "phr.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "silver coin", ch: "银币", pos: "phr.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "metallic grey", ch: "金属灰", pos: "phr.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "white", ch: "白色", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "white board", ch: "白板", pos: "phr.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "green", ch: "绿色", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "hazel", ch: "淡褐色", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "appearance", ch: "外貌，外观", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "fashion", ch: "时尚", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "popular", ch: "受欢迎的", pos: "adj.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "prevalent", ch: "流行的", pos: "adj.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "trend", ch: "趋势", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "traditional style", ch: "传统风格", pos: "phr.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "traditional", ch: "传统", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "cosmetics", ch: "化妆品", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "cream", ch: "乳霜", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "perfume", ch: "香水", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "wear", ch: "穿", pos: "v.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "clothes", ch: "衣服", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "clothing", ch: "衣服", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "clothing section", ch: "服装节", pos: "phr.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "formal clothing", ch: "正装", pos: "phr.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "outfits", ch: "套装", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "dress code", ch: "着装规定", pos: "phr.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "fancy dress", ch: "化装舞会服装", pos: "phr.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "uniform", ch: "制服", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "bag", ch: "包", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "shoes", ch: "鞋子", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "washable shoes", ch: "可水洗的鞋", pos: "phr.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "boots", ch: "靴子", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "socks", ch: "袜子", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "gloves", ch: "手套", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "hat", ch: "帽子", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "party hat", ch: "聚会帽子", pos: "phr.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "helmet", ch: "头盔", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "pocket", ch: "口袋", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "shirt", ch: "衬衣", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "sweater", ch: "针织衫", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "jacket", ch: "夹克", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "trousers", ch: "裤子", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "jeans", ch: "牛仔裤", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "strap", ch: "皮带", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "line", ch: "线", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "string", ch: "细绳", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "rope", ch: "绳子", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "elastic", ch: "松紧带", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        { en: "stretching", ch: "弹性", pos: "n.", mainCategory: "Part 1", subCategory: "颜色与日用品" },
+        // 8. 金融
+        { en: "financial", ch: "金融的", pos: "adj.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "finance market", ch: "金融市场", pos: "phr.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "finance", ch: "金融", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "bank", ch: "银行", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "bank statement", ch: "银行对账单", pos: "phr.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "bank transfer", ch: "银行转账", pos: "phr.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "bill", ch: "账单", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "bookkeeping", ch: "记账", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "account", ch: "账目", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "accountant", ch: "会计师", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "accountable", ch: "负责任的", pos: "adj.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "cash", ch: "现金", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "cashier", ch: "收银员", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "cash machine", ch: "自动取款机", pos: "phr.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "money", ch: "钱", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "money lender", ch: "放贷人", pos: "phr.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "coin", ch: "硬币", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "pound", ch: "英镑", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "cheque", ch: "支票", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "draft", ch: "汇票", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "credit", ch: "信用", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "credit card", ch: "信用卡", pos: "phr.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "credit check", ch: "信贷审查", pos: "phr.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "loan", ch: "贷款", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "cooperation loan", ch: "合作贷款", pos: "phr.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "deposit", ch: "押金", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "economy", ch: "经济", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "economic", ch: "经济学的", pos: "adj.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "economic depression", ch: "经济衰退", pos: "phr.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "economics history", ch: "经济学史", pos: "phr.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "economical", ch: "经济的", pos: "adj.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "insurance", ch: "保险", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "insurance company", ch: "保险公司", pos: "phr.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "house insurance", ch: "住房保险", pos: "phr.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "assurance", ch: "人寿保险", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "life assurance", ch: "人寿保险", pos: "phr.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "investment", ch: "投资", pos: "n.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "reinvest", ch: "再投资", pos: "v.", mainCategory: "Part 1", subCategory: "金融" },
+        { en: "funding", ch: "资金", pos: "n.", mainCategory: "Part 1", subCategory: "金融" }
+    ];
+
+    const mainCategories = ["Part 1"];
+    const subCategoriesList = ["餐饮与饮食","旅游与交通","医疗与健康","租房","购物与消费","人际关系","颜色与日用品","金融"];
+
+    let currentMainCat = "Part 1";
+    let currentSubCat = "餐饮与饮食";
+    let currentWords = vocabData.filter(w => w.mainCategory === currentMainCat && w.subCategory === currentSubCat);
+    if (currentWords.length === 0) currentWords = vocabData.filter(w => w.mainCategory === currentMainCat);
+    let currentIndex = 0;
+    let difficultSet = new Set();
+
+    const mainCategoryFlex = document.getElementById('mainCategoryFlex');
+    const subCategoryFlex = document.getElementById('subCategoryFlex');
+    const flipper = document.getElementById('flipper');
+    const mainEn = document.getElementById('mainEn'); 
+    const backEn = document.getElementById('backEn');
+    const posInfo = document.getElementById('posInfo');
+    const mainCh = document.getElementById('mainCh');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const speakBtn = document.getElementById('speakBtn');
+    const thumbGrid = document.getElementById('thumbGrid');
+    const exportBtn = document.getElementById('exportDifficultBtn');
+    const quizOpen = document.getElementById('quizOpenBtn');
+    const quizOverlay = document.getElementById('quizOverlay');
+    const closeQuiz = document.getElementById('closeQuizBtn');
+    const quizWord = document.getElementById('quizWord');
+    const quizPrev = document.getElementById('quizPrevBtn');
+    const quizNext = document.getElementById('quizNextBtn');
+    const quizCounter = document.getElementById('quizCounter');
+
+    flipper.addEventListener('click', () => flipper.classList.toggle('flipped'));
+
+    function renderMainCats() {
+        mainCategoryFlex.innerHTML = '';
+        mainCategories.forEach(cat => {
+            const btn = document.createElement('button');
+            btn.className = `chap-btn active`;
+            btn.innerText = cat;
+            mainCategoryFlex.appendChild(btn);
+        });
+    }
+
+    function renderSubCats() {
+        subCategoryFlex.innerHTML = '';
+        subCategoriesList.forEach(sub => {
+            const btn = document.createElement('button');
+            btn.className = `sub-btn ${sub === currentSubCat ? 'active-sub' : ''}`;
+            btn.innerText = sub;
+            btn.dataset.sub = sub;
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active-sub'));
+                btn.classList.add('active-sub');
+                currentSubCat = sub;
+                updateWordListAndDisplay();
+            });
+            const cnt = vocabData.filter(w => w.mainCategory === currentMainCat && w.subCategory === sub).length;
+            const span = document.createElement('span');
+            span.className = 'word-count-badge';
+            span.innerText = cnt;
+            btn.appendChild(span);
+            subCategoryFlex.appendChild(btn);
+        });
+    }
+
+    function updateWordListAndDisplay() {
+        let filtered = vocabData.filter(w => w.mainCategory === currentMainCat && w.subCategory === currentSubCat);
+        currentWords = filtered;
+        currentIndex = currentWords.length > 0 ? 0 : -1;
+        refreshMainCard();
+        renderThumbnails();
+    }
+
+    function refreshMainCard() {
+        if (currentWords.length === 0 || currentIndex < 0) {
+            mainEn.innerText = '无'; backEn.innerText = ''; posInfo.innerText = ''; mainCh.innerText = ''; return;
+        }
+        const w = currentWords[currentIndex];
+        mainEn.innerText = w.en;
+        backEn.innerText = w.en;
+        posInfo.innerText = w.pos || '';
+        mainCh.innerText = w.ch;
+        flipper.classList.remove('flipped');
+        speakWord(w.en);
+    }
+
+    function speakWord(text) {
+        if ('speechSynthesis' in window) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    function renderThumbnails() {
+        thumbGrid.innerHTML = '';
+        currentWords.forEach((w, idx) => {
+            const key = `${w.en}|${w.ch}`;
+            const card = document.createElement('div');
+            card.className = 'thumb-item';
+            card.innerHTML = `<input type="checkbox" class="diff-check" data-key="${key}" ${difficultSet.has(key) ? 'checked' : ''}><label>${w.en}</label>`;
+            card.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'INPUT') { currentIndex = idx; refreshMainCard(); }
+            });
+            const chk = card.querySelector('.diff-check');
+            chk.addEventListener('change', (e) => {
+                e.stopPropagation();
+                const k = e.target.dataset.key;
+                e.target.checked ? difficultSet.add(k) : difficultSet.delete(k);
+            });
+            thumbGrid.appendChild(card);
+        });
+    }
+
+    function exportDifficult() {
+        const selected = vocabData.filter(v => difficultSet.has(`${v.en}|${v.ch}`));
+        if (!selected.length) { alert('没有勾选难词'); return; }
+        let csv = "英文,词性,中文含义\n";
+        selected.forEach(w => csv += `"${w.en}","${w.pos || ''}","${w.ch}"\n`);
+        const blob = new Blob(["\uFEFF"+csv], {type:"text/csv;charset=utf-8;"});
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "ielts_listening_difficult_words.csv";
+        link.click();
+    }
+
+    let quizList = [], quizIdx = 0;
+    function openQuiz() {
+        if (!currentWords.length) return;
+        const shuffled = [...currentWords].sort(()=>Math.random()-0.5);
+        quizList = shuffled.slice(0, Math.min(20, currentWords.length));
+        quizIdx = 0; updateQuizDisplay(); quizOverlay.classList.add('show');
+    }
+    function updateQuizDisplay() { if(quizList.length){ quizWord.innerText = quizList[quizIdx].en; quizCounter.innerText = `${quizIdx+1}/${quizList.length}`; } }
+    function closeQuizFn() { quizOverlay.classList.remove('show'); }
+
+    prevBtn.addEventListener('click', ()=>{
+        if(!currentWords.length) return;
+        currentIndex = (currentIndex-1+currentWords.length)%currentWords.length; refreshMainCard();
+    });
+    nextBtn.addEventListener('click', ()=>{
+        if(!currentWords.length) return;
+        currentIndex = (currentIndex+1)%currentWords.length; refreshMainCard();
+    });
+    speakBtn.addEventListener('click', ()=>{
+        if(currentWords[currentIndex]) speakWord(currentWords[currentIndex].en);
+    });
+    exportBtn.addEventListener('click', exportDifficult);
+    quizOpen.addEventListener('click', openQuiz);
+    closeQuiz.addEventListener('click', closeQuizFn);
+    quizPrev.addEventListener('click', ()=>{ if(quizList.length){ quizIdx = (quizIdx-1+quizList.length)%quizList.length; updateQuizDisplay(); } });
+    quizNext.addEventListener('click', ()=>{ if(quizList.length){ quizIdx = (quizIdx+1)%quizList.length; updateQuizDisplay(); } });
+    quizOverlay.addEventListener('click', (e)=>{ if(e.target===quizOverlay) closeQuizFn(); });
+
+    renderMainCats(); renderSubCats();
+    setTimeout(()=>{ const f=document.querySelector('.sub-btn'); if(f) f.classList.add('active-sub'); },20);
+    updateWordListAndDisplay();
+})();
+</script>
+</body>
+</html>
